@@ -1,9 +1,14 @@
 from django.urls import path
-from . import views
+from .views import (
+    ShortURLListCreate,
+    ShortURLDetail,
+    ShortURLRedirect,
+    ShortURLStats,
+)
 
 urlpatterns = [
-    path('shorten/', views.ShortURLListCreate.as_view(), name='shorten-create'),
-    path('shorten/<str:short_code>/', views.ShortURLDetail.as_view(), name='shorten-detail'),
-    path('<str:short_code>/', views.ShortURLRedirect.as_view(), name='shorten-redirect'),
-    path('stats/<str:short_code>/', views.ShortURLStats.as_view(), name='shorten-stats'),
+    path('shorten/', ShortURLListCreate.as_view(), name='shorten-create'),                   # GET/POST all short URLs
+    path('shorten/<str:short_code>/', ShortURLDetail.as_view(), name='shorten-detail'),      # GET/PUT/DELETE a specific short URL
+    path('<str:short_code>/', ShortURLRedirect.as_view(), name='shorten-redirect'),          # Redirect to original URL
+    path('stats/<str:short_code>/', ShortURLStats.as_view(), name='shorten-stats'),          # GET statistics for a specific short URL
 ]

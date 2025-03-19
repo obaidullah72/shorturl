@@ -153,6 +153,9 @@
             border: 1px solid #e0e7ff;
             color: #0a1a3d;
             font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .alert a {
             color: #1e3a8a;
@@ -163,6 +166,19 @@
         .alert a:hover {
             color: #00ddff;
             text-decoration: underline;
+        }
+        .btn-copy {
+            background: #1e3a8a;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+            transition: background 0.3s ease;
+        }
+        .btn-copy:hover {
+            background: #00ddff;
+            color: #0a1a3d;
         }
         footer {
             background: #0a1a3d;
@@ -228,10 +244,14 @@
             const data = await response.json();
             const resultDiv = document.getElementById('result');
             if (response.ok) {
+                const shortUrl = `${window.location.origin}/${data.short_code}`;
                 resultDiv.innerHTML = `
                     <div class="alert alert-success" role="alert">
-                        Short URL: <a href="/${data.short_code}">${window.location.origin}/${data.short_code}</a>
-                        <p>Click the link to visit and track access count.</p>
+                        <div>
+                            Short URL: <a href="/${data.short_code}">${shortUrl}</a>
+                            <p>Click the link to visit and track access count.</p>
+                        </div>
+                        <button class="btn-copy" onclick="copyToClipboard('${shortUrl}')">Copy</button>
                     </div>
                 `;
                 urlInput.value = ''; // Clear input after success
@@ -243,6 +263,15 @@
                 `;
             }
         });
+
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Short URL copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
 
         // Add subtle input animation on focus
         const urlInput = document.getElementById('url-input');
