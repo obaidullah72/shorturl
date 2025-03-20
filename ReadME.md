@@ -111,7 +111,7 @@ python manage.py createsuperuser
 ## 🎨 **Screenshots**
 | Home (Create URL) | Stats Page |
 |-------------------|------------|
-| ![Home](assets/home.png) | ![Stats](assets/stats.png) |
+| ![Home](index.png) | ![Stats](stats.png) |
 
 ---
 
