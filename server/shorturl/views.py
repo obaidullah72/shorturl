@@ -81,21 +81,26 @@ class ShortURLDetail(APIView):
             return Response({"error": "Short URL not found"}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, short_code):
-        """
-        Update a specific short URL.
-        """
         try:
             short_url = self.get_object(short_code)
+            new_short_code = request.data.get('short_code')
+            
+            # Check for short code conflict if it’s changing
+            if new_short_code and new_short_code != short_code:
+                if ShortURL.objects.filter(short_code=new_short_code).exists():
+                    return Response({"error": "Short code already exists"}, status=status.HTTP_400_BAD_REQUEST)
+                short_url.short_code = new_short_code
+            
             serializer = ShortURLSerializer(short_url, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                print(f"Updated short URL: {short_code}")
+                print(f"Updated short URL: {short_url.short_code}")
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print(f"Error updating short URL {short_code}: {str(e)}")
             return Response({"error": "Failed to update short URL"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        
     def delete(self, request, short_code):
         """
         Delete a specific short URL.

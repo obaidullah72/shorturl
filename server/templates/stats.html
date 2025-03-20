@@ -9,34 +9,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(145deg, #0a1a3d 0%, #1e3a8a 100%);
+            background: #f5f6f5; /* Soft Gray background */
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             margin: 0;
             display: flex;
             flex-direction: column;
-            color: #ffffff;
+            color: #1a1a1a; /* Black text */
             overflow-x: hidden;
         }
         .navbar {
-            background: rgba(10, 26, 61, 0.9);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            background: #ffffff; /* White navbar */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 1rem 2rem;
         }
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
-            color: #00ddff !important;
+            color: #0b0b0b !important; /* Light Blue accent */
             transition: color 0.3s ease;
         }
         .nav-link {
-            color: #ffffff !important;
+            color: #1a1a1a !important; /* Black nav links */
             font-weight: 400;
             transition: color 0.3s ease, transform 0.3s ease;
         }
         .nav-link:hover {
-            color: #00ddff !important;
+            color: #87ceeb !important; /* Light Blue on hover */
             transform: translateY(-2px);
         }
         .container {
@@ -44,133 +43,103 @@
             padding: 3rem 1rem;
         }
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            padding: 2.5rem;
-            animation: floatIn 1.2s ease-in-out;
+            background: #ffffff; /* White card */
+            border: 1px solid #e0e0e0; /* Soft Gray border */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            animation: floatIn 1s ease-in-out;
             position: relative;
-            overflow: hidden;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .card:hover::before {
-            opacity: 1;
         }
         @keyframes floatIn {
-            0% { opacity: 0; transform: translateY(50px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
         h2 {
-            color: #0a1a3d;
+            color: #1a1a1a; /* Black heading */
             font-weight: 600;
             font-size: 1.8rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             position: relative;
         }
         h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 0;
-            width: 50px;
-            height: 3px;
-            background: #00ddff;
-            border-radius: 2px;
+            width: 40px;
+            height: 2px;
+            background: #b3d4fc; /* Pastel Blue accent */
+            border-radius: 1px;
         }
         .input-group {
             max-width: 500px;
         }
         .form-control {
-            border-radius: 30px 0 0 30px;
-            padding: 0.9rem 1.5rem;
-            border: 1px solid #e0e7ff;
-            background: #f8fafc;
-            color: #0a1a3d;
+            border-radius: 10px 0 0 10px;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid #e0e0e0; /* Soft Gray border */
+            background: #ffffff; /* White input */
+            color: #1a1a1a; /* Black text */
             font-size: 1rem;
             transition: all 0.3s ease;
         }
         .form-control:focus {
-            border-color: #00ddff;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+            border-color: #87ceeb; /* Light Blue focus */
+            box-shadow: 0 0 8px rgba(135, 206, 235, 0.3);
             background: #ffffff;
         }
         .btn-navy {
-            background: linear-gradient(90deg, #1e3a8a, #0a1a3d);
-            color: #ffffff;
-            border-radius: 0 30px 30px 0;
-            padding: 0.9rem 2.5rem;
+            background: #1a1a1a; /* Black button */
+            color: #ffffff; /* White text */
+            border-radius: 0 10px 10px 0;
+            padding: 0.8rem 2rem;
             font-weight: 500;
             font-size: 1rem;
             border: none;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
         .btn-navy:hover {
-            background: linear-gradient(90deg, #00ddff, #28fffb);
-            color: #0a1a3d;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3);
-        }
-        .btn-navy::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-        .btn-navy:hover::before {
-            left: 100%;
+            background: #87ceeb; /* Light Blue on hover */
+            color: #1a1a1a; /* Black text */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(135, 206, 235, 0.3);
         }
         #stats-result {
             margin-top: 2rem;
             animation: slideIn 0.7s ease-in-out;
         }
         @keyframes slideIn {
-            0% { opacity: 0; transform: translateX(-30px); }
+            0% { opacity: 0; transform: translateX(-20px); }
             100% { opacity: 1; transform: translateX(0); }
         }
         .alert {
-            border-radius: 10px;
-            background: #f8fafc;
-            border: 1px solid #e0e7ff;
-            color: #0a1a3d;
+            border-radius: 8px;
+            background: #f5f6f5; /* Soft Gray alert */
+            border: 1px solid #e0e0e0;
+            color: #1a1a1a; /* Black text */
             font-size: 0.95rem;
         }
         .alert a {
-            color: #1e3a8a;
+            color: #87ceeb; /* Light Blue links */
             font-weight: 500;
             text-decoration: none;
             transition: color 0.3s ease;
         }
         .alert a:hover {
-            color: #00ddff;
+            color: #b3d4fc; /* Pastel Blue on hover */
             text-decoration: underline;
         }
         .table {
-            background: #ffffff;
-            border-radius: 15px;
+            background: #ffffff; /* White table */
+            border-radius: 10px;
             overflow: hidden;
             margin-top: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
         .table thead {
-            background: linear-gradient(90deg, #1e3a8a, #0a1a3d);
-            color: #ffffff;
+            background: #1a1a1a; /* Black header */
+            color: #ffffff; /* White text */
         }
         .table th {
             font-weight: 600;
@@ -180,23 +149,23 @@
             transition: all 0.3s ease;
         }
         .table tbody tr:hover {
-            background: #f8fafc;
-            transform: translateY(-2px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            background: #f5f6f5; /* Soft Gray on hover */
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
         .table td {
             padding: 1rem;
-            color: #0a1a3d;
+            color: #1a1a1a; /* Black text */
             font-size: 0.95rem;
         }
         .table a {
-            color: #1e3a8a;
+            color: #87ceeb; /* Light Blue links */
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
         .table a:hover {
-            color: #00ddff;
+            color: #b3d4fc; /* Pastel Blue on hover */
             text-decoration: underline;
         }
         .btn-edit, .btn-delete {
@@ -208,37 +177,37 @@
             transition: all 0.3s ease;
         }
         .btn-edit {
-            background: #1e3a8a;
-            color: #ffffff;
+            background: #1a1a1a; /* Black button */
+            color: #ffffff; /* White text */
         }
         .btn-edit:hover {
-            background: #00ddff;
-            color: #0a1a3d;
+            background: #87ceeb; /* Light Blue on hover */
+            color: #1a1a1a; /* Black text */
         }
         .btn-delete {
-            background: #dc3545;
-            color: #ffffff;
+            background: #ff6b6b; /* Soft Red for delete */
+            color: #ffffff; /* White text */
         }
         .btn-delete:hover {
-            background: #c82333;
+            background: #ff8787; /* Lighter Red on hover */
         }
         .modal-content {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background: #ffffff; /* White modal */
+            border: 1px solid #e0e0e0; /* Soft Gray border */
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
         .modal-header {
-            background: linear-gradient(90deg, #1e3a8a, #0a1a3d);
-            color: #ffffff;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+            background: #1a1a1a; /* Black header */
+            color: #ffffff; /* White text */
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
         .modal-title {
             font-weight: 600;
         }
         .modal-body {
-            color: #0a1a3d;
+            color: #1a1a1a; /* Black text */
             padding: 1.5rem;
         }
         .modal-footer {
@@ -246,27 +215,27 @@
             padding: 1rem;
         }
         .btn-modal-cancel {
-            background: #6c757d;
-            color: #ffffff;
+            background: #d3d3d3; /* Light Gray button */
+            color: #1a1a1a; /* Black text */
             border: none;
             border-radius: 5px;
             padding: 0.5rem 1rem;
             transition: background 0.3s ease;
         }
         .btn-modal-cancel:hover {
-            background: #5a6268;
+            background: #e0e0e0; /* Lighter Gray on hover */
         }
         .btn-modal-confirm {
-            background: linear-gradient(90deg, #1e3a8a, #0a1a3d);
-            color: #ffffff;
+            background: #1a1a1a; /* Black button */
+            color: #ffffff; /* White text */
             border: none;
             border-radius: 5px;
             padding: 0.5rem 1rem;
             transition: all 0.3s ease;
         }
         .btn-modal-confirm:hover {
-            background: linear-gradient(90deg, #00ddff, #28fffb);
-            color: #0a1a3d;
+            background: #87ceeb; /* Light Blue on hover */
+            color: #1a1a1a; /* Black text */
         }
         .toast-container {
             position: fixed;
@@ -275,30 +244,30 @@
             z-index: 1055;
         }
         .toast {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            color: #0a1a3d;
+            background: #ffffff; /* White toast */
+            border: 1px solid #e0e0e0; /* Soft Gray border */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: #1a1a1a; /* Black text */
         }
         .toast-header {
-            background: linear-gradient(90deg, #1e3a8a, #0a1a3d);
-            color: #ffffff;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            background: #1a1a1a; /* Black header */
+            color: #ffffff; /* White text */
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
         }
         .toast-body {
             font-size: 0.95rem;
         }
         .toast-success .toast-header {
-            background: linear-gradient(90deg, #28a745, #1e7e34);
+            background: #98d8aa; /* Pastel Green for success */
         }
         .toast-error .toast-header {
-            background: linear-gradient(90deg, #dc3545, #c82333);
+            background: #ff8787; /* Soft Red for error */
         }
         footer {
-            background: #0a1a3d;
-            color: #e0e7ff;
+            background: #1a1a1a; /* Black footer */
+            color: #d3d3d3; /* Light Gray text */
             text-align: center;
             padding: 1.5rem;
             font-size: 0.9rem;
@@ -390,7 +359,7 @@
                     <form id="edit-form">
                         <div class="mb-3">
                             <label for="edit-short-code" class="form-label">Short Code</label>
-                            <input type="text" class="form-control" id="edit-short-code" readonly>
+                            <input type="text" class="form-control" id="edit-short-code" required>
                         </div>
                         <div class="mb-3">
                             <label for="edit-url" class="form-label">Original URL</label>
@@ -425,6 +394,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // CSRF Token setup
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
         // Function to show toast notification
         function showToast(message, type) {
             const toastElement = document.getElementById('notificationToast');
@@ -455,11 +441,11 @@
                         <p><strong>Updated At:</strong> ${new Date(data.updated_at).toLocaleString()}</p>
                     </div>
                 `;
-                attachShortUrlListeners(); // Attach listeners to short URL links
+                attachShortUrlListeners();
             } else {
                 resultDiv.innerHTML = `
                     <div class="alert alert-danger" role="alert">
-                        Error: Short URL not found
+                        Error: ${data.error || 'Short URL not found'}
                     </div>
                 `;
             }
@@ -471,38 +457,49 @@
             const data = await response.json();
             const tableBody = document.getElementById('stats-table-body');
             tableBody.innerHTML = '';
-            data.forEach((item, index) => {
-                const shortUrl = `${window.location.origin}/${item.short_code}`;
-                const row = document.createElement('tr');
-                row.style.animation = `slideIn 0.5s ease-in-out ${index * 0.1}s forwards`;
-                row.style.opacity = '0';
-                row.innerHTML = `
-                    <td>${item.short_code}</td>
-                    <td>${item.url.substring(0, 50)}${item.url.length > 50 ? '...' : ''}</td>
-                    <td><a href="/${item.short_code}" target="_blank" class="short-url">${shortUrl}</a></td>
-                    <td>${item.access_count}</td>
-                    <td>${new Date(item.created_at).toLocaleString()}</td>
-                    <td>${new Date(item.updated_at).toLocaleString()}</td>
-                    <td>
-                        <button class="btn-edit" onclick="openEditModal('${item.short_code}', '${item.url}')">Edit</button>
-                        <button class="btn-delete" onclick="openDeleteModal('${item.short_code}')">Delete</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-            attachShortUrlListeners(); // Attach listeners to short URL links
+            if (response.ok) {
+                data.forEach((item, index) => {
+                    const shortUrl = `${window.location.origin}/${item.short_code}`;
+                    const row = document.createElement('tr');
+                    row.style.animation = `slideIn 0.5s ease-in-out ${index * 0.1}s forwards`;
+                    row.style.opacity = '0';
+                    row.innerHTML = `
+                        <td>${item.short_code}</td>
+                        <td>${item.url.substring(0, 50)}${item.url.length > 50 ? '...' : ''}</td>
+                        <td><a href="/${item.short_code}" target="_blank" class="short-url">${shortUrl}</a></td>
+                        <td>${item.access_count}</td>
+                        <td>${new Date(item.created_at).toLocaleString()}</td>
+                        <td>${new Date(item.updated_at).toLocaleString()}</td>
+                        <td>
+                            <button class="btn-edit" onclick="openEditModal('${item.short_code}', '${item.url}')">Edit</button>
+                            <button class="btn-delete" onclick="openDeleteModal('${item.short_code}')">Delete</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                attachShortUrlListeners();
+            }
         }
 
-        // Attach click listeners to short URL links for auto-refresh
+        // Attach click listeners to short URL links
         function attachShortUrlListeners() {
             document.querySelectorAll('.short-url').forEach(link => {
                 link.addEventListener('click', (e) => {
-                    // Allow the link to open in a new tab
                     setTimeout(() => {
-                        loadAllStats(); // Refresh the table after clicking the short URL
-                    }, 500); // Delay to ensure the redirect happens first
+                        loadAllStats();
+                    }, 500);
                 });
             });
+        }
+
+        // Function to generate a short code from URL
+        function generateShortCode(url) {
+            let hash = 0;
+            for (let i = 0; i < url.length; i++) {
+                hash = ((hash << 5) - hash) + url.charCodeAt(i);
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(36).substring(0, 6);
         }
 
         // Open Delete Modal
@@ -511,48 +508,68 @@
             const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
             deleteModal.show();
 
-            // Attach event listener to the confirm delete button
             document.getElementById('confirm-delete').onclick = async () => {
                 const response = await fetch(`/shorten/${shortCode}/`, {
                     method: 'DELETE',
                     headers: {
-                        'X-CSRFToken': '{{ csrf_token }}'
+                        'X-CSRFToken': csrftoken
                     }
                 });
                 if (response.ok) {
                     showToast('Short URL deleted successfully!', 'success');
-                    loadAllStats(); // Refresh the table
+                    loadAllStats();
                     deleteModal.hide();
                 } else {
-                    showToast('Failed to delete short URL.', 'error');
+                    const data = await response.json();
+                    showToast(`Failed to delete short URL: ${data.error || 'Unknown error'}`, 'error');
                 }
             };
         }
 
         // Open Edit Modal
         function openEditModal(shortCode, url) {
-            document.getElementById('edit-short-code').value = shortCode;
-            document.getElementById('edit-url').value = url;
+            const shortCodeInput = document.getElementById('edit-short-code');
+            const urlInput = document.getElementById('edit-url');
+            
+            shortCodeInput.value = shortCode;
+            urlInput.value = url;
+            
             const editModal = new bootstrap.Modal(document.getElementById('editModal'));
             editModal.show();
 
-            // Attach event listener to the confirm edit button
+            // Update short code when URL changes
+            urlInput.addEventListener('input', (e) => {
+                const newUrl = e.target.value;
+                if (newUrl) {
+                    shortCodeInput.value = generateShortCode(newUrl);
+                }
+            });
+
+            // Handle edit confirmation
             document.getElementById('confirm-edit').onclick = async () => {
-                const newUrl = document.getElementById('edit-url').value;
+                const newUrl = urlInput.value;
+                const newShortCode = shortCodeInput.value;
+                const isShortCodeChanged = newShortCode !== shortCode;
+
                 const response = await fetch(`/shorten/${shortCode}/`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'
+                        'X-CSRFToken': csrftoken
                     },
-                    body: JSON.stringify({ url: newUrl })
+                    body: JSON.stringify({ 
+                        url: newUrl,
+                        ...(isShortCodeChanged && { short_code: newShortCode })
+                    })
                 });
+
                 if (response.ok) {
                     showToast('Short URL updated successfully!', 'success');
-                    loadAllStats(); // Refresh the table
+                    loadAllStats();
                     editModal.hide();
                 } else {
-                    showToast('Failed to update short URL.', 'error');
+                    const data = await response.json();
+                    showToast(`Failed to update short URL: ${data.error || 'Unknown error'}`, 'error');
                 }
             };
         }
@@ -560,7 +577,7 @@
         // Load stats on page load
         window.onload = loadAllStats;
 
-        // Add subtle input animation on focus
+        // Input animation
         const shortCodeInput = document.getElementById('short-code-input');
         shortCodeInput.addEventListener('focus', () => {
             shortCodeInput.style.transform = 'scale(1.02)';
