@@ -1,0 +1,590 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShortURL - Stats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f5f6f5; /* Soft Gray background */
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            color: #1a1a1a; /* Black text */
+            overflow-x: hidden;
+        }
+        .navbar {
+            background: #ffffff; /* White navbar */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #0b0b0b !important; /* Light Blue accent */
+            transition: color 0.3s ease;
+        }
+        .nav-link {
+            color: #1a1a1a !important; /* Black nav links */
+            font-weight: 400;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #87ceeb !important; /* Light Blue on hover */
+            transform: translateY(-2px);
+        }
+        .container {
+            flex: 1;
+            padding: 3rem 1rem;
+        }
+        .card {
+            background: #ffffff; /* White card */
+            border: 1px solid #e0e0e0; /* Soft Gray border */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            animation: floatIn 1s ease-in-out;
+            position: relative;
+        }
+        @keyframes floatIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            color: #1a1a1a; /* Black heading */
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #b3d4fc; /* Pastel Blue accent */
+            border-radius: 1px;
+        }
+        .input-group {
+            max-width: 500px;
+        }
+        .form-control {
+            border-radius: 10px 0 0 10px;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid #e0e0e0; /* Soft Gray border */
+            background: #ffffff; /* White input */
+            color: #1a1a1a; /* Black text */
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #87ceeb; /* Light Blue focus */
+            box-shadow: 0 0 8px rgba(135, 206, 235, 0.3);
+            background: #ffffff;
+        }
+        .btn-navy {
+            background: #1a1a1a; /* Black button */
+            color: #ffffff; /* White text */
+            border-radius: 0 10px 10px 0;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            font-size: 1rem;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-navy:hover {
+            background: #87ceeb; /* Light Blue on hover */
+            color: #1a1a1a; /* Black text */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(135, 206, 235, 0.3);
+        }
+        #stats-result {
+            margin-top: 2rem;
+            animation: slideIn 0.7s ease-in-out;
+        }
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        .alert {
+            border-radius: 8px;
+            background: #f5f6f5; /* Soft Gray alert */
+            border: 1px solid #e0e0e0;
+            color: #1a1a1a; /* Black text */
+            font-size: 0.95rem;
+        }
+        .alert a {
+            color: #87ceeb; /* Light Blue links */
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .alert a:hover {
+            color: #b3d4fc; /* Pastel Blue on hover */
+            text-decoration: underline;
+        }
+        .table {
+            background: #ffffff; /* White table */
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .table thead {
+            background: #1a1a1a; /* Black header */
+            color: #ffffff; /* White text */
+        }
+        .table th {
+            font-weight: 600;
+            padding: 1rem;
+        }
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+        .table tbody tr:hover {
+            background: #f5f6f5; /* Soft Gray on hover */
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .table td {
+            padding: 1rem;
+            color: #1a1a1a; /* Black text */
+            font-size: 0.95rem;
+        }
+        .table a {
+            color: #87ceeb; /* Light Blue links */
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .table a:hover {
+            color: #b3d4fc; /* Pastel Blue on hover */
+            text-decoration: underline;
+        }
+        .btn-edit, .btn-delete {
+            border: none;
+            border-radius: 5px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-edit {
+            background: #1a1a1a; /* Black button */
+            color: #ffffff; /* White text */
+        }
+        .btn-edit:hover {
+            background: #87ceeb; /* Light Blue on hover */
+            color: #1a1a1a; /* Black text */
+        }
+        .btn-delete {
+            background: #ff6b6b; /* Soft Red for delete */
+            color: #ffffff; /* White text */
+        }
+        .btn-delete:hover {
+            background: #ff8787; /* Lighter Red on hover */
+        }
+        .modal-content {
+            background: #ffffff; /* White modal */
+            border: 1px solid #e0e0e0; /* Soft Gray border */
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        .modal-header {
+            background: #1a1a1a; /* Black header */
+            color: #ffffff; /* White text */
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .modal-title {
+            font-weight: 600;
+        }
+        .modal-body {
+            color: #1a1a1a; /* Black text */
+            padding: 1.5rem;
+        }
+        .modal-footer {
+            border: none;
+            padding: 1rem;
+        }
+        .btn-modal-cancel {
+            background: #d3d3d3; /* Light Gray button */
+            color: #1a1a1a; /* Black text */
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            transition: background 0.3s ease;
+        }
+        .btn-modal-cancel:hover {
+            background: #e0e0e0; /* Lighter Gray on hover */
+        }
+        .btn-modal-confirm {
+            background: #1a1a1a; /* Black button */
+            color: #ffffff; /* White text */
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+        .btn-modal-confirm:hover {
+            background: #87ceeb; /* Light Blue on hover */
+            color: #1a1a1a; /* Black text */
+        }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1055;
+        }
+        .toast {
+            background: #ffffff; /* White toast */
+            border: 1px solid #e0e0e0; /* Soft Gray border */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: #1a1a1a; /* Black text */
+        }
+        .toast-header {
+            background: #1a1a1a; /* Black header */
+            color: #ffffff; /* White text */
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .toast-body {
+            font-size: 0.95rem;
+        }
+        .toast-success .toast-header {
+            background: #98d8aa; /* Pastel Green for success */
+        }
+        .toast-error .toast-header {
+            background: #ff8787; /* Soft Red for error */
+        }
+        footer {
+            background: #1a1a1a; /* Black footer */
+            color: #d3d3d3; /* Light Gray text */
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">ShortURL</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'stats' %}">Stats</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2>URL Statistics</h2>
+            <form id="stats-form" class="mb-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="short_code" id="short-code-input" placeholder="Enter short code" required>
+                    <button class="btn btn-navy" type="submit">Get Stats</button>
+                </div>
+            </form>
+            <div id="stats-result"></div>
+
+            <h2 class="mt-5">All Short URLs</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Short Code</th>
+                            <th>Original URL</th>
+                            <th>Short URL</th>
+                            <th>Access Count</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stats-table-body">
+                        <!-- Populated via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Short URL</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the short URL with code <strong id="delete-short-code"></strong>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-confirm" id="confirm-delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Short URL</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-form">
+                        <div class="mb-3">
+                            <label for="edit-short-code" class="form-label">Short Code</label>
+                            <input type="text" class="form-control" id="edit-short-code" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-url" class="form-label">Original URL</label>
+                            <input type="url" class="form-control" id="edit-url" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-confirm" id="confirm-edit">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container">
+        <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <!-- Message will be set dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 ShortURL Service | Crafted with Elegance</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // CSRF Token setup
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        // Function to show toast notification
+        function showToast(message, type) {
+            const toastElement = document.getElementById('notificationToast');
+            const toastBody = toastElement.querySelector('.toast-body');
+            toastBody.textContent = message;
+            toastElement.classList.remove('toast-success', 'toast-error');
+            toastElement.classList.add(`toast-${type}`);
+            const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+            toast.show();
+        }
+
+        // Single URL stats
+        document.getElementById('stats-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const shortCode = document.getElementById('short-code-input').value;
+            const response = await fetch(`/stats/${shortCode}/`);
+            const data = await response.json();
+            const resultDiv = document.getElementById('stats-result');
+            if (response.ok) {
+                const shortUrl = `${window.location.origin}/${data.short_code}`;
+                resultDiv.innerHTML = `
+                    <div class="alert alert-info" role="alert">
+                        <p><strong>Original URL:</strong> ${data.url}</p>
+                        <p><strong>Short URL:</strong> <a href="/${data.short_code}" target="_blank" class="short-url">${shortUrl}</a></p>
+                        <p><strong>Short Code:</strong> ${data.short_code}</p>
+                        <p><strong>Access Count:</strong> ${data.access_count}</p>
+                        <p><strong>Created At:</strong> ${new Date(data.created_at).toLocaleString()}</p>
+                        <p><strong>Updated At:</strong> ${new Date(data.updated_at).toLocaleString()}</p>
+                    </div>
+                `;
+                attachShortUrlListeners();
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="alert alert-danger" role="alert">
+                        Error: ${data.error || 'Short URL not found'}
+                    </div>
+                `;
+            }
+        });
+
+        // Load all stats table
+        async function loadAllStats() {
+            const response = await fetch('/shorten/');
+            const data = await response.json();
+            const tableBody = document.getElementById('stats-table-body');
+            tableBody.innerHTML = '';
+            if (response.ok) {
+                data.forEach((item, index) => {
+                    const shortUrl = `${window.location.origin}/${item.short_code}`;
+                    const row = document.createElement('tr');
+                    row.style.animation = `slideIn 0.5s ease-in-out ${index * 0.1}s forwards`;
+                    row.style.opacity = '0';
+                    row.innerHTML = `
+                        <td>${item.short_code}</td>
+                        <td>${item.url.substring(0, 50)}${item.url.length > 50 ? '...' : ''}</td>
+                        <td><a href="/${item.short_code}" target="_blank" class="short-url">${shortUrl}</a></td>
+                        <td>${item.access_count}</td>
+                        <td>${new Date(item.created_at).toLocaleString()}</td>
+                        <td>${new Date(item.updated_at).toLocaleString()}</td>
+                        <td>
+                            <button class="btn-edit" onclick="openEditModal('${item.short_code}', '${item.url}')">Edit</button>
+                            <button class="btn-delete" onclick="openDeleteModal('${item.short_code}')">Delete</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                attachShortUrlListeners();
+            }
+        }
+
+        // Attach click listeners to short URL links
+        function attachShortUrlListeners() {
+            document.querySelectorAll('.short-url').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    setTimeout(() => {
+                        loadAllStats();
+                    }, 500);
+                });
+            });
+        }
+
+        // Function to generate a short code from URL
+        function generateShortCode(url) {
+            let hash = 0;
+            for (let i = 0; i < url.length; i++) {
+                hash = ((hash << 5) - hash) + url.charCodeAt(i);
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(36).substring(0, 6);
+        }
+
+        // Open Delete Modal
+        function openDeleteModal(shortCode) {
+            document.getElementById('delete-short-code').textContent = shortCode;
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
+
+            document.getElementById('confirm-delete').onclick = async () => {
+                const response = await fetch(`/shorten/${shortCode}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                });
+                if (response.ok) {
+                    showToast('Short URL deleted successfully!', 'success');
+                    loadAllStats();
+                    deleteModal.hide();
+                } else {
+                    const data = await response.json();
+                    showToast(`Failed to delete short URL: ${data.error || 'Unknown error'}`, 'error');
+                }
+            };
+        }
+
+        // Open Edit Modal
+        function openEditModal(shortCode, url) {
+            const shortCodeInput = document.getElementById('edit-short-code');
+            const urlInput = document.getElementById('edit-url');
+            
+            shortCodeInput.value = shortCode;
+            urlInput.value = url;
+            
+            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            editModal.show();
+
+            // Update short code when URL changes
+            urlInput.addEventListener('input', (e) => {
+                const newUrl = e.target.value;
+                if (newUrl) {
+                    shortCodeInput.value = generateShortCode(newUrl);
+                }
+            });
+
+            // Handle edit confirmation
+            document.getElementById('confirm-edit').onclick = async () => {
+                const newUrl = urlInput.value;
+                const newShortCode = shortCodeInput.value;
+                const isShortCodeChanged = newShortCode !== shortCode;
+
+                const response = await fetch(`/shorten/${shortCode}/`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify({ 
+                        url: newUrl,
+                        ...(isShortCodeChanged && { short_code: newShortCode })
+                    })
+                });
+
+                if (response.ok) {
+                    showToast('Short URL updated successfully!', 'success');
+                    loadAllStats();
+                    editModal.hide();
+                } else {
+                    const data = await response.json();
+                    showToast(`Failed to update short URL: ${data.error || 'Unknown error'}`, 'error');
+                }
+            };
+        }
+
+        // Load stats on page load
+        window.onload = loadAllStats;
+
+        // Input animation
+        const shortCodeInput = document.getElementById('short-code-input');
+        shortCodeInput.addEventListener('focus', () => {
+            shortCodeInput.style.transform = 'scale(1.02)';
+        });
+        shortCodeInput.addEventListener('blur', () => {
+            shortCodeInput.style.transform = 'scale(1)';
+        });
+    </script>
+</body>
+</html>
